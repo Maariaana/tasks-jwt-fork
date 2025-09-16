@@ -12,6 +12,7 @@ const { authMiddleware } = require('../middlewares/authMiddleware');
 const router = Router();
 
 router.get("/", authMiddleware, list);
+
 router.get("/new", authMiddleware, createForm);
 router.post("/new", authMiddleware, create);
 

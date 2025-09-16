@@ -1,6 +1,16 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const {generateToken} = require('../middlewares/authMiddleware')
+const { generateToken } = require("../middlewares/authMiddleware");
+
+// 👉 Renderiza página de login
+const loginForm = (req, res) => {
+  res.render("login", { error: null });
+};
+
+// 👉 Renderiza página de registro
+const registerForm = (req, res) => {
+  res.render("register", { error: null });
+};
 
 const login = async (req, res) => {
   try {
@@ -27,37 +37,26 @@ const login = async (req, res) => {
   }
 };
 
-const register = async(req, res) => {
+const register = async (req, res) => {
   try {
     const { name, username, password } = req.body;
     const newPassword = bcrypt.hashSync(password, 10);
 
-    const user = await User.create(
-      {
-        name,
-        username,
-        password: newPassword
-      }
-    );
-
-    res.status(201).send({
-      user: {
-        id: user.id,
-        name: user.name,
-        username: user.username
-      }
+    await User.create({
+      name,
+      username,
+      password: newPassword,
     });
 
-
+    res.redirect("/login"); // 👈 depois de registrar, redireciona pro login
   } catch (error) {
-    res.status(500).send({
-      error: 'Error registering user',
-      details: error,
-    });
+    res.render("register", { error: "Erro ao registrar usuário" });
   }
 };
 
 module.exports = {
+  loginForm,
   login,
+  registerForm,
   register,
 };

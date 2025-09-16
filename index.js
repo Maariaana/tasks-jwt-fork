@@ -1,5 +1,7 @@
 const express = require('express');
 const db = require('./db');
+const taskRoutes = require("./routes/taskRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,8 +22,8 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Página Inicial' });
 });
 
-app.use('/api/user', require('./routes/userRoutes'));
-app.use('/api/task', require('./routes/taskRoutes'));
+app.use("/", userRoutes);
+app.use("/tasks", taskRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Tarefas</title>
 </head>
 <body>
-  <h1>Lista de Tarefas</h1> 
-  <a href="/tasks/criar">Criar Tarefa</a>
+  <h1>Lista de Tarefas</h1>
+
+  <% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+
+  <a href="/tasks/new">Nova Tarefa</a>
+
   <ul>
     <% tasks.forEach(task => { %>
       <li>
-        <%= task.titulo %> - <%= task.descricao %> - <%= task.completada ? 'Completada' : 'Não Completada' %>
-          <a href="/tasks/<%= task.id %>/editar">Editar</a>
-        </li>
-    <% }); %>
+        <%= task.title %> - <%= task.completed ? "✅" : "❌" %>
+        <a href="/tasks/edit/<%= task.id %>">Editar</a>
+        <form action="/tasks/delete/<%= task.id %>" method="POST" style="display:inline;">
+          <button type="submit">Excluir</button>
+        </form>
+      </li>
+    <% }) %>
   </ul>
 </body>
 </html>
