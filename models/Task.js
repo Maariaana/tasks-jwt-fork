@@ -2,15 +2,15 @@ const db = require('../db');
 const User = require('./User');
 
 const Task = db.define('task', {
-  title: {
+  titulo: {
     type: db.Sequelize.STRING,
     allowNull: false,
   },
-  description: {
+  descricao: {
     type: db.Sequelize.TEXT,
     allowNull: true,
   },
-  completed: {
+  completada: {
     type: db.Sequelize.BOOLEAN,
     defaultValue: false,
   },

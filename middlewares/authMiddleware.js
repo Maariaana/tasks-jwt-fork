@@ -14,13 +14,13 @@ const generateToken = (user) => {
 };
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.cookies.token; // pega do cookie
   if (!token) {
-    return res.status(401).send({ error: 'No token provided' });
+    return res.redirect("/login");
   }
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
-      return res.status(401).send({ error: 'Invalid token' });
+      return res.redirect("/login");
     }
     req.user = decoded;
     next();

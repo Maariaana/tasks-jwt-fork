@@ -4,16 +4,22 @@ const {
     create, 
     update, 
     complete, 
-    remove 
+    remove,
+    createForm,
+    editForm
 } = require('../controllers/taskController');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const router = Router();
 
-router.get('/', authMiddleware, list);
-router.post('/', authMiddleware, create);
+router.get("/", authMiddleware, list);
+router.get("/new", authMiddleware, createForm);
+router.post("/new", authMiddleware, create);
 
-router.put('/:id', authMiddleware, update);
-router.patch('/:id/complete', authMiddleware, complete);
-router.delete('/:id', authMiddleware, remove);
+router.get("/edit/:id", authMiddleware, editForm);
+router.post("/edit/:id", authMiddleware, update);
+
+router.post("/:id/complete", authMiddleware, complete);
+router.post("/:id/delete", authMiddleware, remove);
+
 
 module.exports = router;

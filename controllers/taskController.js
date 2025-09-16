@@ -1,24 +1,30 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
 
-const create = async (req, res) => {
+const list = async (req, res) => {
   try {
-    const task = await Task.create({ ...req.body, user_id: req.user.id });
-    res.status(201).send(task);
+    const tasks = await Task.findAll({ where: { user_id: req.user.id } });
+    res.render("tasks/listar", { tasks });
   } catch (error) {
-    res.status(500).send({ error: 'Failed to create task' });
+    res.render("tasks/listar", { tasks: [], error: "Erro ao carregar tarefas" });
   }
 };
 
-const list = async (req, res) => {
+const createForm = (req, res) => {
+  res.render("tasks/criar");
+};
+
+const create = async (req, res) => {
   try {
-    const tasks = await Task.findAll({
-      where: { user_id: req.user.id },
-      include: User,
+    await Task.create({
+      title: req.body.title,
+      description: req.body.description,
+      completed: req.body.completed === "on",
+      user_id: req.user.id,
     });
-    res.status(200).send(tasks);
+    res.redirect("/tasks");
   } catch (error) {
-    res.status(500).send({ error: 'Failed to fetch tasks' });
+    res.render("tasks/criar", { error: "Erro ao criar tarefa" });
   }
 };
 
@@ -62,10 +68,25 @@ const remove = async (req, res) => {
   }
 };
 
+const editForm = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const task = await Task.findOne({ where: { id, user_id: req.user.id } });
+    if (!task) {
+      return res.status(404).render("tasks/editar", { error: "Tarefa não encontrada" });
+    }
+    res.render("tasks/editar", { task });
+  } catch (error) {
+    res.status(500).render("tasks/editar", { error: "Erro ao carregar tarefa" });
+  }
+};
+
 module.exports = {
   create,
   list,
   update,
   complete,
-  remove
+  remove,
+  createForm,
+  editForm
 };

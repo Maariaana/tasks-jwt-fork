@@ -1,35 +1,29 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const {generateToken} = require('../middlewares/authMiddleware')
+
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ where: { username } })
-      if (!user) {
-        return res.status(404).send({ error: 'User not found' });
-      }
-      const passwordIsValid = bcrypt.compareSync(
-        password, user.password
-      );
-      if (!passwordIsValid) {
-        return res.status(401)
-        .send({ error: 'Invalid password' });
-      }
-      const token = generateToken(user);
-      res.status(200).send({
-        user: {
-          id: user.id,
-          name: user.name,
-          username: user.username
-        },
-        token
-      });
-    
+    const user = await User.findOne({ where: { username } });
+
+    if (!user) {
+      return res.render("login", { error: "Usuário não encontrado" });
+    }
+
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
+    if (!passwordIsValid) {
+      return res.render("login", { error: "Senha inválida" });
+    }
+
+    const token = generateToken(user);
+
+    // salvar token em cookie
+    res.cookie("token", token, { httpOnly: true });
+
+    res.redirect("/tasks");
   } catch (error) {
-    res.status(500).send({
-      error: 'Error logging in',
-      details: error,
-    });
+    res.render("login", { error: "Erro ao fazer login" });
   }
 };
 

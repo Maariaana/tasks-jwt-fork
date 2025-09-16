@@ -6,4 +6,9 @@ const router = Router();
 router.post('/register', register);
 router.post('/login', login);
 
+router.get('/login', (req, res) => {
+  res.render('login', { error: null });
+});
+
+
 module.exports = router;

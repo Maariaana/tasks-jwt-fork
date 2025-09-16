@@ -5,11 +5,15 @@
 </head>
 <body>
   <h1>Login</h1>
-  <form action="/login" method="POST">
-    <label>Username: <input type="text" name="username" /></label><br>
-    <label>Password: <input type="password" name="password" /></label><br>
-    <button type="submit">Login</button>
-  </form>
-  <a href="/register">Criar nova conta</a>
+<% if (typeof error !== 'undefined' && error) { %>
+  <p style="color:red"><%= error %></p>
+<% } %>
+<form action="/api/user/login" method="POST">
+  <label>Username: <input type="text" name="username" /></label><br>
+  <label>Password: <input type="password" name="password" /></label><br>
+  <button type="submit">Login</button>
+</form>
+<a href="/api/user/register">Criar nova conta</a>
+
 </body>
 </html>
