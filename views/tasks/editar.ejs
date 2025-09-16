@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Tarefa</title>
+</head>
+<body>
+  <h1>Editar Tarefa</h1> 
+  <a href="/tasks">Voltar para Lista de Tarefas</a>
+  <form action="/tasks/<%= tarefa.id %>" method="post">
+    <label for="titulo">Título:</label>
+    <input type="text" id="titulo" name="titulo" value="<%= tarefa.titulo %>" required>
+    <br>
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" name="descricao" value="<%= tarefa.descricao %>" required>
+    <br>
+    <label for="completada">Completada:</label>
+    <input type="checkbox" id="completada" name="completada" <%= tarefa.completada ? 'checked' : '' %>>
+    <br>
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</body>
+</html>
