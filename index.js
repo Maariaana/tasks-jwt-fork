@@ -17,15 +17,16 @@ app.set('views', __dirname + '/views');
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // para processar forms HTML
 
-app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // 👈 para ler dados de formulários
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.render('index', { title: 'Página Inicial' });
 });
 
-app.use("/", userRoutes);
-app.use("/tasks", taskRoutes);
+app.use("/tasks", require("./routes/taskRoutes"));
+app.use("/", require("./routes/userRoutes"));
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

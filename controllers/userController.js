@@ -13,15 +13,21 @@ const registerForm = (req, res) => {
 };
 
 const login = async (req, res) => {
+  console.log("REQ BODY:", req.body);
+
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ where: { username } });
+    console.log("USER ENCONTRADO:", user ? user.toJSON() : null);
 
     if (!user) {
       return res.render("login", { error: "Usuário não encontrado" });
     }
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
+    console.log("SENHA DIGITADA:", password);
+    console.log("HASH NO BANCO:", user.password);
+
     if (!passwordIsValid) {
       return res.render("login", { error: "Senha inválida" });
     }
