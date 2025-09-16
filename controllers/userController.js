@@ -40,19 +40,21 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     const { name, username, password } = req.body;
-    const newPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    await User.create({
+    const user = await User.create({
       name,
       username,
-      password: newPassword,
+      password: hashedPassword,
     });
 
-    res.redirect("/login"); // 👈 depois de registrar, redireciona pro login
+    res.redirect("/login"); // depois do cadastro, vai para tela de login
   } catch (error) {
+    console.error("❌ Erro ao registrar usuário:", error); // mostra no terminal
     res.render("register", { error: "Erro ao registrar usuário" });
   }
 };
+
 
 module.exports = {
   loginForm,
