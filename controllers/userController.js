@@ -2,12 +2,10 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../middlewares/authMiddleware");
 
-// 👉 Renderiza página de login
 const loginForm = (req, res) => {
   res.render("login", { error: null });
 };
 
-// 👉 Renderiza página de registro
 const registerForm = (req, res) => {
   res.render("register", { error: null });
 };
@@ -34,7 +32,6 @@ const login = async (req, res) => {
 
     const token = generateToken(user);
 
-    // salvar token em cookie
     res.cookie("token", token, { httpOnly: true });
 
     res.redirect("/tasks");
@@ -54,9 +51,9 @@ const register = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.redirect("/login"); // depois do cadastro, vai para tela de login
+    res.redirect("/login"); 
   } catch (error) {
-    console.error("❌ Erro ao registrar usuário:", error); // mostra no terminal
+    console.error("❌ Erro ao registrar usuário:", error);
     res.render("register", { error: "Erro ao registrar usuário" });
   }
 };

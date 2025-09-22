@@ -3,36 +3,109 @@
 
 <head>
   <title>Lista de Tarefas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 30px;
+    }
+
+    a {
+      color: #1976d2;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    li {
+      background: #fff;
+      margin-bottom: 15px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    form {
+      display: inline;
+      margin: 0 5px;
+    }
+
+    button {
+      background: #e53935;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #b71c1c;
+    }
+
+    .task-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  </style>
 </head>
 
 <body>
   <h1>Lista de Tarefas</h1>
-
   <% if (error) { %>
     <p style="color: red;">
       <%= error %>
     </p>
     <% } %>
-
-      <a href="/tasks/new">Nova Tarefa</a>
-
+      <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/tasks/new" title="Adicionar Nova Tarefa" style="font-size: 1.5em;">➕ Adicionar nova tarefa</a>
+      </div>
       <ul>
         <% tasks.forEach(task=> { %>
           <li>
-            <%= task.titulo %> - <%= task.completada ? "✅" : "❌" %>
-                <form action="/tasks/<%= task.id %>/complete" method="POST" style="display:inline;">
-                  <input type="checkbox" name="completada" onchange="this.form.submit()" <%=task.completada ? 'checked'
-                    : '' %> >
-                </form>
-                <a href="/tasks/edit/<%= task.id %>">Editar</a>
-                <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;">
-                  <button type="submit">Excluir</button>
-                </form>
+            <span class="task-info">
+              <%= task.titulo %> - <%= task.completada ? "✅" : "❌" %>
+                  <form action="/tasks/<%= task.id %>/complete" method="POST">
+                    <input type="checkbox" name="completada" onchange="this.form.submit()" <%=task.completada
+                      ? 'checked' : '' %> >
+                  </form>
+            </span>
+            <a href="/tasks/edit/<%= task.id %>">✏️</a>
+            <form action="/tasks/<%= task.id %>/delete" method="POST">
+              <button type="submit">🗑️</button>
+            </form>
           </li>
           <% }) %>
-            <br>
-            <a href="/logout">Sair</a>
       </ul>
+      <br>
+
+      <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/logout" title="Sair" style="font-size: 1.5em;">Sair</a>
+      </div>
 </body>
 
 </html>
