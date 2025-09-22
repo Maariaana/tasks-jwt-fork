@@ -14,6 +14,10 @@ const Task = db.define('task', {
     type: db.Sequelize.BOOLEAN,
     defaultValue: false,
   },
+  user_id: {
+    type: db.Sequelize.INTEGER,
+    allowNull: false,
+  },
 });
 
 Task.belongsTo(User, { foreignKey: 'user_id' });

@@ -15,9 +15,9 @@ app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true })); // para processar forms HTML
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.urlencoded({ extended: true })); // 👈 para ler dados de formulários
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get('/', (req, res) => {

@@ -8,15 +8,15 @@
 <body>
   <h1>Editar Tarefa</h1> 
   <a href="/tasks">Voltar para Lista de Tarefas</a>
-  <form action="/tasks/<%= tarefa.id %>" method="post">
+  <form action="/tasks/edit/<%= task.id %>" method="post">
     <label for="titulo">Título:</label>
-    <input type="text" id="titulo" name="titulo" value="<%= tarefa.titulo %>" required>
+    <input type="text" id="titulo" name="titulo" value="<%= task.titulo %>" required>
     <br>
     <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" name="descricao" value="<%= tarefa.descricao %>" required>
+    <input type="text" id="descricao" name="descricao" value="<%= task.descricao %>" required>
     <br>
     <label for="completada">Completada:</label>
-    <input type="checkbox" id="completada" name="completada" <%= tarefa.completada ? 'checked' : '' %>>
+    <input type="checkbox" id="completada" name="completada" <%= task.completada ? 'checked' : '' %>>
     <br>
     <button type="submit">Salvar Alterações</button>
   </form>

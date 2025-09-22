@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Lista de Tarefas</title>
 </head>
+
 <body>
   <h1>Lista de Tarefas</h1>
 
   <% if (error) { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
+    <p style="color: red;">
+      <%= error %>
+    </p>
+    <% } %>
 
-  <a href="/tasks/new">Nova Tarefa</a>
+      <a href="/tasks/new">Nova Tarefa</a>
 
-  <ul>
-    <% tasks.forEach(task => { %>
-      <li>
-        <%= task.title %> - <%= task.completed ? "✅" : "❌" %>
-        <a href="/tasks/edit/<%= task.id %>">Editar</a>
-        <form action="/tasks/delete/<%= task.id %>" method="POST" style="display:inline;">
-          <button type="submit">Excluir</button>
-        </form>
-      </li>
-    <% }) %>
-  </ul>
+      <ul>
+        <% tasks.forEach(task=> { %>
+          <li>
+            <%= task.titulo %> - <%= task.completada ? "✅" : "❌" %>
+                <form action="/tasks/<%= task.id %>/complete" method="POST" style="display:inline;">
+                  <input type="checkbox" name="completada" onchange="this.form.submit()" <%=task.completada ? 'checked'
+                    : '' %> >
+                </form>
+                <a href="/tasks/edit/<%= task.id %>">Editar</a>
+                <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;">
+                  <button type="submit">Excluir</button>
+                </form>
+          </li>
+          <% }) %>
+            <br>
+            <a href="/logout">Sair</a>
+      </ul>
 </body>
+
 </html>
